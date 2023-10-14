@@ -11,7 +11,7 @@ java {
     sourceCompatibility = '17'
 }
 springBoot {
-    mainClass = "ru.nsu.fit.directors.orderservice.GatewayApplication"
+    mainClass = "ru.nsu.fit.directors.gateway.GatewayApplication"
 }
 
 configurations {
