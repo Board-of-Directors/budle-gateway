@@ -10,6 +10,9 @@ version = '0.0.1-SNAPSHOT'
 java {
     sourceCompatibility = '17'
 }
+springBoot {
+    mainClass = "ru.nsu.fit.directors.orderservice.GatewayApplication"
+}
 
 configurations {
     compileOnly {
