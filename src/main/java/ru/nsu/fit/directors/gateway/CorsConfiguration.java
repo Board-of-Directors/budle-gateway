@@ -2,6 +2,7 @@ package ru.nsu.fit.directors.gateway;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -20,16 +21,16 @@ import java.util.Optional;
 public class CorsConfiguration {
 
     private static final String ALLOWED_HEADERS = "*";
-    private static final String ALLOWED_METHODS = "*";
+    private static final String ALLOWED_METHODS = "GET, POST, PUT, DELETE, OPTIONS";
     private static final String ALLOWED_ORIGIN = "*";
-    private static final String MAX_AGE = "3600";
     private static final String ALLOW_CREDENTIALS = "true";
 
     @Bean
+    @Primary
     public WebFilter corsFilter() {
         return (ServerWebExchange ctx, WebFilterChain chain) -> {
             ServerHttpRequest request = ctx.getRequest();
-            if (CorsUtils.isCorsRequest(request)) {
+            if (CorsUtils.isCorsRequest(request) || CorsUtils.isPreFlightRequest(request)) {
                 ServerHttpResponse response = ctx.getResponse();
                 HttpHeaders headers = response.getHeaders();
                 String origin =
@@ -38,10 +39,9 @@ public class CorsConfiguration {
                         .orElse(ALLOWED_ORIGIN);
                 headers.add("Access-Control-Allow-Origin", origin);
                 headers.add("Access-Control-Allow-Methods", ALLOWED_METHODS);
-                headers.add("Access-Control-Max-Age", MAX_AGE);
                 headers.add("Access-Control-Allow-Headers", ALLOWED_HEADERS);
                 headers.add("Access-Control-Allow-Credentials", ALLOW_CREDENTIALS);
-                if (request.getMethod() == HttpMethod.OPTIONS) {
+                if (request.getMethod() == HttpMethod.OPTIONS || CorsUtils.isPreFlightRequest(request)) {
                     response.setStatusCode(HttpStatus.OK);
                     return Mono.empty();
                 }
