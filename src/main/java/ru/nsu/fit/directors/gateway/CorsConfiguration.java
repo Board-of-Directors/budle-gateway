@@ -32,6 +32,7 @@ public class CorsConfiguration {
             if (CorsUtils.isCorsRequest(request)) {
                 ServerHttpResponse response = ctx.getResponse();
                 HttpHeaders headers = response.getHeaders();
+                System.out.println(headers + " INTERNAL");
                 String origin =
                     Optional.ofNullable(request.getHeaders().get("Origin"))
                         .map(list -> list.get(0))
