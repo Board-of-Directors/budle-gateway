@@ -41,7 +41,6 @@ public class CorsConfiguration {
                 headers.add("Access-Control-Allow-Methods", ALLOWED_METHODS);
                 headers.add("Access-Control-Allow-Headers", ALLOWED_HEADERS);
                 headers.add("Access-Control-Allow-Credentials", ALLOW_CREDENTIALS);
-                headers.add("Access-Control-Expose-Headers", ALLOWED_HEADERS);
                 if (request.getMethod() == HttpMethod.OPTIONS || CorsUtils.isPreFlightRequest(request)) {
                     response.setStatusCode(HttpStatus.OK);
                     return Mono.empty();
